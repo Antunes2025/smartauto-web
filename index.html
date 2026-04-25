@@ -1,61 +1,125 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartAuto - Venda seu Carro</title>
-    <!-- Isso faz o site parecer um App no celular -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
-    <style>
-        body { background-color: #06060E; color: #ECEAE0; font-family: sans-serif; margin: 0; padding: 20px; padding-bottom: 80px; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .logo { color: #FF4F00; font-size: 24px; font-weight: bold; }
-        
-        /* Botão de Anunciar fixo estilo App */
-        .btn-anunciar { 
-            background: #FF4F00; color: white; border: none; padding: 15px; 
-            border-radius: 50px; font-weight: bold; position: fixed; 
-            bottom: 20px; left: 50%; transform: translateX(-50%);
-            width: 80%; box-shadow: 0 5px 20px rgba(255, 79, 0, 0.4);
-            z-index: 100; text-align: center; text-decoration: none;
-        }
+    <title>SmartAuto - Painel de Anúncios</title>
+    <!-- Bibliotecas Firebase -->
+    <script src="https://gstatic.com"></script>
+    <script src="https://gstatic.com"></script>
+    <script src="https://gstatic.com"></script>
 
+    <style>
+        body { background-color: #06060E; color: #ECEAE0; font-family: sans-serif; margin: 0; padding: 20px; padding-bottom: 100px; }
+        .logo { color: #FF4F00; font-size: 26px; font-weight: bold; text-align: center; margin-bottom: 20px; }
         .card { background: #14141F; border: 1px solid #1C1C2C; border-radius: 15px; overflow: hidden; margin-bottom: 20px; }
-        .card-img { width: 100%; height: 200px; background: #1C1C2C; display: flex; align-items: center; justify-content: center; font-size: 50px; }
+        .card-img { width: 100%; height: 200px; object-fit: cover; background: #1C1C2C; }
         .card-content { padding: 15px; }
         .price { color: #F0BC35; font-size: 22px; font-weight: bold; }
-        .btn-wapp { background: #25D366; color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; margin-top: 10px; }
+        
+        /* Formulário */
+        .modal { background: #0C0C18; border: 1px solid #FF4F00; padding: 20px; border-radius: 20px; margin-bottom: 30px; display: none; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #1C1C2C; background: #14141F; color: white; box-sizing: border-box; }
+        .btn-salvar { background: #FF4F00; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; margin-top: 10px; }
+        .btn-anunciar { background: #FF4F00; color: white; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 80%; padding: 15px; border-radius: 50px; font-weight: bold; text-align: center; text-decoration: none; box-shadow: 0 5px 20px rgba(255,79,0,0.3); z-index: 100; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">SmartAuto</div>
-        <div style="background: #1ABF5A11; color: #1ABF5A; padding: 5px 10px; border-radius: 20px; font-size: 12px;">App Ativo</div>
+
+    <div class="logo">SmartAuto</div>
+
+    <!-- Formulário de Cadastro (Escondido por padrão) -->
+    <div id="modalCadastro" class="modal">
+        <h3>📢 Anunciar Veículo</h3>
+        <input type="text" id="marca" placeholder="Ex: Toyota Corolla">
+        <input type="text" id="ano" placeholder="Ex: 2022/2023">
+        <input type="text" id="km" placeholder="Ex: 15.000 km">
+        <input type="number" id="preco" placeholder="Preço (Ex: 120000)">
+        <p style="font-size: 12px; color: #60607A;">Foto do Veículo:</p>
+        <input type="file" id="foto" accept="image/*">
+        <button class="btn-salvar" id="btnSalvar">PUBLICAR AGORA</button>
+        <button onclick="fecharForm()" style="background:none; border:none; color: #60607A; width:100%; margin-top:10px;">Cancelar</button>
     </div>
 
-    <!-- Lista de Carros (Aqui entrarão os dados do cliente depois) -->
-    <div id="lista-carros">
-        <div class="card">
-            <div class="card-img">🚗</div> <!-- Depois aqui será a <img src="..."> -->
-            <div class="card-content">
-                <h3>Toyota Corolla XEi</h3>
-                <p style="color: #60607A;">2021 • 32.000 km</p>
-                <div class="price">R$ 118.000</div>
-                <button class="btn-wapp">Chamar no WhatsApp</button>
-            </div>
-        </div>
+    <!-- Lista de Veículos -->
+    <div id="vitrine">
+        <p style="text-align: center; color: #404055;">Carregando anúncios...</p>
     </div>
 
-    <!-- Botão que abre o formulário -->
-    <a href="#" class="btn-anunciar" onclick="alert('Abrindo formulário de cadastro...')">
-        + ANUNCIAR MEU VEÍCULO
-    </a>
+    <a href="#" class="btn-anunciar" id="btnAbrir" onclick="abrirForm()">+ ANUNCIAR MEU CARRO</a>
 
     <script>
-        // Futuramente aqui colocaremos a lógica para salvar as fotos
+        // CONFIGURAÇÃO FIREBASE (SUAS CHAVES)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBVrdGOR0l7vS3T0O9qrT9ytpqwdcofJnQ",
+            authDomain: "smartauto-a9b88.firebaseapp.com",
+            projectId: "smartauto-a9b88",
+            storageBucket: "smartauto-a9b88.firebasestorage.app",
+            messagingSenderId: "928911632213",
+            appId: "1:928911632213:web:e0269d95320b1ee46f71dc"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+
+        // FUNÇÕES DO SITE
+        function abrirForm() { document.getElementById('modalCadastro').style.display = 'block'; }
+        function fecharForm() { document.getElementById('modalCadastro').style.display = 'none'; }
+
+        // SALVAR DADOS
+        document.getElementById('btnSalvar').onclick = async () => {
+            const btn = document.getElementById('btnSalvar');
+            const file = document.getElementById('foto').files[0];
+            if(!file) return alert("Selecione uma foto!");
+            
+            btn.disabled = true;
+            btn.innerText = "ENVIANDO...";
+
+            try {
+                // 1. Sobe a foto
+                const storageRef = storage.ref('carros/' + file.name);
+                await storageRef.put(file);
+                const urlFoto = await storageRef.getDownloadURL();
+
+                // 2. Salva no Banco
+                await db.collection('veiculos').add({
+                    nome: document.getElementById('marca').value,
+                    ano: document.getElementById('ano').value,
+                    km: document.getElementById('km').value,
+                    preco: Number(document.getElementById('preco').value),
+                    foto: urlFoto,
+                    data: new Date()
+                });
+
+                alert("Sucesso! Seu anúncio está no ar.");
+                location.reload();
+            } catch (e) {
+                alert("Erro: " + e.message);
+                btn.disabled = false;
+            }
+        };
+
+        // CARREGAR VITRINE
+        db.collection('veiculos').orderBy('data', 'desc').onSnapshot(snap => {
+            const vitrine = document.getElementById('vitrine');
+            vitrine.innerHTML = '';
+            snap.forEach(doc => {
+                const carro = doc.data();
+                vitrine.innerHTML += `
+                    <div class="card">
+                        <img src="${carro.foto}" class="card-img">
+                        <div class="card-content">
+                            <h3>${carro.nome}</h3>
+                            <p style="color:#60607A;">${carro.ano} • ${carro.km}</p>
+                            <div class="price">R$ ${carro.preco.toLocaleString('pt-BR')}</div>
+                            <button class="btn-salvar" style="background:#25D366">CHAMAR VENDEDOR</button>
+                        </div>
+                    </div>
+                `;
+            });
+        });
     </script>
 </body>
 </html>
+
