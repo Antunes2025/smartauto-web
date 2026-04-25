@@ -4,39 +4,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartAuto</title>
+    <title>SmartAuto - Venda seu Carro</title>
+    <!-- Isso faz o site parecer um App no celular -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
     <style>
-        body { background-color: #06060E; color: #ECEAE0; font-family: sans-serif; margin: 0; padding: 20px; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        body { background-color: #06060E; color: #ECEAE0; font-family: sans-serif; margin: 0; padding: 20px; padding-bottom: 80px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .logo { color: #FF4F00; font-size: 24px; font-weight: bold; }
-        .card { background: #14141F; border: 1px solid #1C1C2C; border-radius: 15px; padding: 20px; margin-bottom: 20px; text-align: center; }
-        .price { color: #F0BC35; font-size: 22px; font-weight: bold; margin: 10px 0; }
-        .btn { background: #FF4F00; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .tag { background: #25D36622; color: #25D366; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+        
+        /* Botão de Anunciar fixo estilo App */
+        .btn-anunciar { 
+            background: #FF4F00; color: white; border: none; padding: 15px; 
+            border-radius: 50px; font-weight: bold; position: fixed; 
+            bottom: 20px; left: 50%; transform: translateX(-50%);
+            width: 80%; box-shadow: 0 5px 20px rgba(255, 79, 0, 0.4);
+            z-index: 100; text-align: center; text-decoration: none;
+        }
+
+        .card { background: #14141F; border: 1px solid #1C1C2C; border-radius: 15px; overflow: hidden; margin-bottom: 20px; }
+        .card-img { width: 100%; height: 200px; background: #1C1C2C; display: flex; align-items: center; justify-content: center; font-size: 50px; }
+        .card-content { padding: 15px; }
+        .price { color: #F0BC35; font-size: 22px; font-weight: bold; }
+        .btn-wapp { background: #25D366; color: white; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; margin-top: 10px; }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="logo">SmartAuto</div>
-        <div class="tag">Online</div>
+        <div style="background: #1ABF5A11; color: #1ABF5A; padding: 5px 10px; border-radius: 20px; font-size: 12px;">App Ativo</div>
     </div>
 
-    <div class="card">
-        <div style="font-size: 40px;">🚗</div>
-        <h2>Toyota Corolla XEi</h2>
-        <p style="color: #60607A;">2021 • 32.000 km</p>
-        <div class="price">R$ 118.000</div>
-        <button class="btn" onclick="window.location.reload()">Ver Estoque Completo</button>
+    <!-- Lista de Carros (Aqui entrarão os dados do cliente depois) -->
+    <div id="lista-carros">
+        <div class="card">
+            <div class="card-img">🚗</div> <!-- Depois aqui será a <img src="..."> -->
+            <div class="card-content">
+                <h3>Toyota Corolla XEi</h3>
+                <p style="color: #60607A;">2021 • 32.000 km</p>
+                <div class="price">R$ 118.000</div>
+                <button class="btn-wapp">Chamar no WhatsApp</button>
+            </div>
+        </div>
     </div>
 
-    <div class="card">
-        <div style="font-size: 40px;">🚙</div>
-        <h2>Honda Civic Touring</h2>
-        <p style="color: #60607A;">2020 • 48.000 km</p>
-        <div class="price">R$ 132.000</div>
-        <button class="btn" onclick="window.location.reload()">Ver no WhatsApp</button>
-    </div>
+    <!-- Botão que abre o formulário -->
+    <a href="#" class="btn-anunciar" onclick="alert('Abrindo formulário de cadastro...')">
+        + ANUNCIAR MEU VEÍCULO
+    </a>
 
-    <p style="text-align: center; color: #404055; font-size: 12px;">© 2024 SmartAuto - Painel de Vendas</p>
+    <script>
+        // Futuramente aqui colocaremos a lógica para salvar as fotos
+    </script>
 </body>
 </html>
