@@ -3,56 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartAuto - Painel de Anúncios</title>
-    <!-- Bibliotecas Firebase -->
+    <title>SmartAuto Pro</title>
     <script src="https://gstatic.com"></script>
     <script src="https://gstatic.com"></script>
     <script src="https://gstatic.com"></script>
 
     <style>
-        body { background-color: #06060E; color: #ECEAE0; font-family: sans-serif; margin: 0; padding: 20px; padding-bottom: 100px; }
-        .logo { color: #FF4F00; font-size: 26px; font-weight: bold; text-align: center; margin-bottom: 20px; }
+        body { background-color: #06060E; color: #ECEAE0; font-family: sans-serif; margin: 0; padding: 15px; padding-bottom: 100px; }
+        .logo { color: #FF4F00; font-size: 26px; font-weight: bold; text-align: center; margin: 20px 0; }
         .card { background: #14141F; border: 1px solid #1C1C2C; border-radius: 15px; overflow: hidden; margin-bottom: 20px; }
-        .card-img { width: 100%; height: 200px; object-fit: cover; background: #1C1C2C; }
+        .card-img { width: 100%; height: 230px; object-fit: cover; background: #1C1C2C; }
         .card-content { padding: 15px; }
         .price { color: #F0BC35; font-size: 22px; font-weight: bold; }
         
-        /* Formulário */
-        .modal { background: #0C0C18; border: 1px solid #FF4F00; padding: 20px; border-radius: 20px; margin-bottom: 30px; display: none; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #1C1C2C; background: #14141F; color: white; box-sizing: border-box; }
-        .btn-salvar { background: #FF4F00; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; margin-top: 10px; }
-        .btn-anunciar { background: #FF4F00; color: white; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 80%; padding: 15px; border-radius: 50px; font-weight: bold; text-align: center; text-decoration: none; box-shadow: 0 5px 20px rgba(255,79,0,0.3); z-index: 100; }
+        /* Estilo Formulário Profissional */
+        .modal { background: #0C0C18; border: 1.5px solid #FF4F00; padding: 20px; border-radius: 20px; margin-bottom: 30px; display: none; }
+        select, input { width: 100%; padding: 14px; margin: 8px 0; border-radius: 10px; border: 1px solid #1C1C2C; background: #14141F; color: white; font-size: 16px; box-sizing: border-box; }
+        .btn-salvar { background: #FF4F00; color: white; border: none; padding: 16px; width: 100%; border-radius: 10px; font-weight: bold; font-size: 16px; transition: 0.3s; }
+        .btn-salvar:disabled { background: #444; }
+        .btn-anunciar { background: #FF4F00; color: white; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 85%; padding: 16px; border-radius: 50px; font-weight: bold; text-align: center; text-decoration: none; box-shadow: 0 8px 25px rgba(255,79,0,0.4); z-index: 100; }
     </style>
 </head>
 <body>
 
     <div class="logo">SmartAuto</div>
 
-    <!-- Formulário de Cadastro (Escondido por padrão) -->
     <div id="modalCadastro" class="modal">
-        <h3>📢 Anunciar Veículo</h3>
-        <input type="text" id="marca" placeholder="Ex: Toyota Corolla">
-        <input type="text" id="ano" placeholder="Ex: 2022/2023">
-        <input type="text" id="km" placeholder="Ex: 15.000 km">
-        <input type="number" id="preco" placeholder="Preço (Ex: 120000)">
-        <p style="font-size: 12px; color: #60607A;">Foto do Veículo:</p>
-        <input type="file" id="foto" accept="image/*">
-        <button class="btn-salvar" id="btnSalvar">PUBLICAR AGORA</button>
-        <button onclick="fecharForm()" style="background:none; border:none; color: #60607A; width:100%; margin-top:10px;">Cancelar</button>
+        <h3>📢 Novo Anúncio</h3>
+        
+        <!-- Lista Pronta de Veículos -->
+        <select id="marca">
+            <option value="">Selecione a Marca/Modelo</option>
+            <option>Toyota Corolla</option>
+            <option>Honda Civic</option>
+            <option>VW Golf</option>
+            <option>Chevrolet Onix</option>
+            <option>Fiat Pulse</option>
+            <option>Jeep Compass</option>
+            <option>Outro (Digitar no Ano)</option>
+        </select>
+
+        <input type="text" id="ano" placeholder="Ano (Ex: 2022)">
+        <input type="text" id="km" placeholder="Km (Ex: 20.000)">
+        <input type="number" id="preco" placeholder="Preço (Somente números)">
+        
+        <p style="font-size: 12px; color: #FF4F00;">📷 Selecione várias fotos de uma vez:</p>
+        <input type="file" id="fotos" accept="image/*" multiple> <!-- MULTIPLE ATIVADO -->
+        
+        <button class="btn-salvar" id="btnSalvar">PUBLICAR VEÍCULO</button>
+        <button onclick="fecharForm()" style="background:none; border:none; color: #60607A; width:100%; margin: 15px 0;">Cancelar</button>
     </div>
 
-    <!-- Lista de Veículos -->
-    <div id="vitrine">
-        <p style="text-align: center; color: #404055;">Carregando anúncios...</p>
-    </div>
+    <div id="vitrine"><p style="text-align: center; color: #404055;">Carregando vitrine...</p></div>
 
-    <a href="#" class="btn-anunciar" id="btnAbrir" onclick="abrirForm()">+ ANUNCIAR MEU CARRO</a>
+    <a href="#" class="btn-anunciar" onclick="abrirForm()">+ ANUNCIAR AGORA</a>
 
     <script>
-        // CONFIGURAÇÃO FIREBASE (SUAS CHAVES)
         const firebaseConfig = {
             apiKey: "AIzaSyBVrdGOR0l7vS3T0O9qrT9ytpqwdcofJnQ",
-            authDomain: "smartauto-a9b88.firebaseapp.com",
+            authDomain: "://firebaseapp.com",
             projectId: "smartauto-a9b88",
             storageBucket: "smartauto-a9b88.firebasestorage.app",
             messagingSenderId: "928911632213",
@@ -63,44 +72,45 @@
         const db = firebase.firestore();
         const storage = firebase.storage();
 
-        // FUNÇÕES DO SITE
-        function abrirForm() { document.getElementById('modalCadastro').style.display = 'block'; }
+        function abrirForm() { document.getElementById('modalCadastro').style.display = 'block'; window.scrollTo(0,0); }
         function fecharForm() { document.getElementById('modalCadastro').style.display = 'none'; }
 
-        // SALVAR DADOS
         document.getElementById('btnSalvar').onclick = async () => {
             const btn = document.getElementById('btnSalvar');
-            const file = document.getElementById('foto').files[0];
-            if(!file) return alert("Selecione uma foto!");
+            const files = document.getElementById('fotos').files;
+            if(files.length === 0) return alert("Selecione pelo menos uma foto!");
             
             btn.disabled = true;
-            btn.innerText = "ENVIANDO...";
+            btn.innerText = "PROCESSANDO IMAGENS...";
 
             try {
-                // 1. Sobe a foto
-                const storageRef = storage.ref('carros/' + file.name);
-                await storageRef.put(file);
-                const urlFoto = await storageRef.getDownloadURL();
+                let urls = [];
+                // Upload de múltiplas fotos
+                for (let file of files) {
+                    const ref = storage.ref(`carros/${Date.now()}_${file.name}`);
+                    await ref.put(file);
+                    const url = await ref.getDownloadURL();
+                    urls.push(url);
+                }
 
-                // 2. Salva no Banco
                 await db.collection('veiculos').add({
                     nome: document.getElementById('marca').value,
                     ano: document.getElementById('ano').value,
                     km: document.getElementById('km').value,
                     preco: Number(document.getElementById('preco').value),
-                    foto: urlFoto,
+                    fotos: urls, // Salva a lista de fotos
                     data: new Date()
                 });
 
-                alert("Sucesso! Seu anúncio está no ar.");
+                alert("Anúncio publicado com sucesso!");
                 location.reload();
             } catch (e) {
-                alert("Erro: " + e.message);
+                alert("Erro ao publicar: " + e.message);
                 btn.disabled = false;
+                btn.innerText = "PUBLICAR VEÍCULO";
             }
         };
 
-        // CARREGAR VITRINE
         db.collection('veiculos').orderBy('data', 'desc').onSnapshot(snap => {
             const vitrine = document.getElementById('vitrine');
             vitrine.innerHTML = '';
@@ -108,12 +118,12 @@
                 const carro = doc.data();
                 vitrine.innerHTML += `
                     <div class="card">
-                        <img src="${carro.foto}" class="card-img">
+                        <img src="${carro.fotos[0]}" class="card-img">
                         <div class="card-content">
                             <h3>${carro.nome}</h3>
                             <p style="color:#60607A;">${carro.ano} • ${carro.km}</p>
                             <div class="price">R$ ${carro.preco.toLocaleString('pt-BR')}</div>
-                            <button class="btn-salvar" style="background:#25D366">CHAMAR VENDEDOR</button>
+                            <button class="btn-salvar" style="background:#25D366; padding: 10px; margin-top:10px;">VER NO WHATSAPP</button>
                         </div>
                     </div>
                 `;
@@ -122,4 +132,3 @@
     </script>
 </body>
 </html>
-
