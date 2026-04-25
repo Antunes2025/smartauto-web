@@ -1,38 +1,42 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartAuto</title>
-    <!-- Bibliotecas necessárias -->
-    <script src="https://unpkg.com"></script>
-    <script src="https://unpkg.com"></script>
-    <script src="https://unpkg.com"></script>
+    <style>
+        body { background-color: #06060E; color: #ECEAE0; font-family: sans-serif; margin: 0; padding: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .logo { color: #FF4F00; font-size: 24px; font-weight: bold; }
+        .card { background: #14141F; border: 1px solid #1C1C2C; border-radius: 15px; padding: 20px; margin-bottom: 20px; text-align: center; }
+        .price { color: #F0BC35; font-size: 22px; font-weight: bold; margin: 10px 0; }
+        .btn { background: #FF4F00; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .tag { background: #25D36622; color: #25D366; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+    </style>
 </head>
-<body style="margin:0; background-color: #06060E;">
-    <div id="root"></div>
+<body>
+    <div class="header">
+        <div class="logo">SmartAuto</div>
+        <div class="tag">Online</div>
+    </div>
 
-    <script type="text/babel">
-        const { useState } = React;
+    <div class="card">
+        <div style="font-size: 40px;">🚗</div>
+        <h2>Toyota Corolla XEi</h2>
+        <p style="color: #60607A;">2021 • 32.000 km</p>
+        <div class="price">R$ 118.000</div>
+        <button class="btn" onclick="window.location.reload()">Ver Estoque Completo</button>
+    </div>
 
-        function App() {
-            return (
-                <div style={{ color: '#ECEAE0', padding: '40px', textAlign: 'center', fontFamily: 'sans-serif' }}>
-                    <h1 style={{ color: '#FF4F00' }}>SmartAuto</h1>
-                    <p>O aplicativo está sendo carregado...</p>
-                    <div style={{ background: '#14141F', padding: '20px', borderRadius: '15px', border: '1px solid #1C1C2C' }}>
-                        <h2>🚗 Sistema Online</h2>
-                        <p>Se você está vendo isso, o link funcionou!</p>
-                        <button style={{ background: '#FF4F00', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '8px', fontWeight: 'bold' }}>
-                            Acessar Estoque
-                        </button>
-                    </div>
-                </div>
-            );
-        }
+    <div class="card">
+        <div style="font-size: 40px;">🚙</div>
+        <h2>Honda Civic Touring</h2>
+        <p style="color: #60607A;">2020 • 48.000 km</p>
+        <div class="price">R$ 132.000</div>
+        <button class="btn" onclick="window.location.reload()">Ver no WhatsApp</button>
+    </div>
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
+    <p style="text-align: center; color: #404055; font-size: 12px;">© 2024 SmartAuto - Painel de Vendas</p>
 </body>
 </html>
