@@ -3,78 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartAuto - Venda Inteligente</title>
+    <title>SmartAuto</title>
+    <!-- Bibliotecas necessárias -->
     <script src="https://unpkg.com"></script>
     <script src="https://unpkg.com"></script>
     <script src="https://unpkg.com"></script>
-    <style>@import url('https://googleapis.com'); body{margin:0; font-family: sans-serif;}</style>
 </head>
-<body>
+<body style="margin:0; background-color: #06060E;">
     <div id="root"></div>
+
     <script type="text/babel">
-        const C = {
-            bg:"#06060E", s1:"#0C0C18", s2:"#111120", card:"#14141F",
-            border:"#1C1C2C", faint:"#252535",
-            accent:"#FF4F00", accentL:"#FF6B22", accentD:"#CC3F00",
-            gold:"#F0BC35", green:"#1ABF5A", red:"#E03535", blue:"#2E74F0", purple:"#7C3AED",
-            txt:"#ECEAE0", muted:"#60607A", dim:"#404055",
-            wapp:"#25D366",
-        };
+        const { useState } = React;
 
-        const CARS = [
-            {id:1,brand:"Toyota",model:"Corolla XEi",year:2021,price:118000,km:32000,img:"🚗"},
-            {id:2,brand:"Honda",model:"Civic Touring",year:2020,price:132000,km:48000,img:"🚙"},
-            {id:3,brand:"Volkswagen",model:"Golf GTI",year:2022,price:185000,km:18000,img:"🏎️"},
-        ];
-
-        const PLANS = [
-            {id:"basico",name:"Básico",price:97,color:C.blue, features:["Até 10 anúncios","Consulta FIPE"]},
-            {id:"pro",name:"Pro",price:197,color:C.accent,badge:"POPULAR", features:["Anúncios ilimitados","IA de preço"]},
-            {id:"enterprise",name:"Enterprise",price:497,color:C.gold, features:["API própria","White-label"]},
-        ];
-
-        function SmartAuto() {
-            const [view, setView] = React.useState("cars");
-            const f$ = (v) => new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0}).format(v);
-
+        function App() {
             return (
-                <div style={{ backgroundColor: C.bg, color: C.txt, minHeight: "100vh", padding: "20px" }}>
-                    <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 30 }}>
-                        <h1 style={{ color: C.accent, fontSize: 24, margin: 0, fontFamily: 'Syne' }}>SmartAuto</h1>
-                        <nav>
-                            <button onClick={() => setView("cars")} style={{ background: "none", border: "none", color: view === "cars" ? C.accent : C.muted, marginRight: 15, fontWeight: "bold" }}>Estoque</button>
-                            <button onClick={() => setView("plans")} style={{ background: "none", border: "none", color: view === "plans" ? C.accent : C.muted, fontWeight: "bold" }}>Planos</button>
-                        </nav>
-                    </header>
-
-                    {view === "cars" ? (
-                        <div style={{ display: "grid", gap: 20 }}>
-                            {CARS.map(car => (
-                                <div key={car.id} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: 15 }}>
-                                    <div style={{ fontSize: 30 }}>{car.img}</div>
-                                    <h3>{car.brand} {car.model}</h3>
-                                    <div style={{ color: C.gold, fontSize: 18, fontWeight: "bold" }}>{f$(car.price)}</div>
-                                    <button style={{ width: "100%", marginTop: 10, padding: 10, borderRadius: 8, border: "none", background: C.accent, color: "#fff", fontWeight: "bold" }}>Ver no WhatsApp</button>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div style={{ display: "grid", gap: 20 }}>
-                            {PLANS.map(plan => (
-                                <div key={plan.id} style={{ background: C.card, border: `2px solid ${plan.color}`, borderRadius: 12, padding: 20, textAlign: "center" }}>
-                                    <h3 style={{ color: plan.color }}>{plan.name}</h3>
-                                    <div style={{ fontSize: 24, fontWeight: "bold" }}>R$ {plan.price}/mês</div>
-                                    <button style={{ width: "100%", marginTop: 10, padding: 10, borderRadius: 8, border: "none", background: plan.color, color: "#000", fontWeight: "bold" }}>Assinar</button>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+                <div style={{ color: '#ECEAE0', padding: '40px', textAlign: 'center', fontFamily: 'sans-serif' }}>
+                    <h1 style={{ color: '#FF4F00' }}>SmartAuto</h1>
+                    <p>O aplicativo está sendo carregado...</p>
+                    <div style={{ background: '#14141F', padding: '20px', borderRadius: '15px', border: '1px solid #1C1C2C' }}>
+                        <h2>🚗 Sistema Online</h2>
+                        <p>Se você está vendo isso, o link funcionou!</p>
+                        <button style={{ background: '#FF4F00', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '8px', fontWeight: 'bold' }}>
+                            Acessar Estoque
+                        </button>
+                    </div>
                 </div>
             );
         }
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<SmartAuto />);
+        root.render(<App />);
     </script>
 </body>
 </html>
